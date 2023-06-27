@@ -15,7 +15,7 @@ public class Main {
             var font = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/IBMPlexSansJP-Text.ttf"));
             font = font.deriveFont(50f);
 
-            final var originalImg = ImageIO.read(Main.class.getResourceAsStream("/778.png"));
+            final var originalImg = ImageIO.read(Main.class.getResourceAsStream("/background.png"));
 
             final var width = 1024;
             final var height = (int) (((double) width / (double) originalImg.getWidth()) * originalImg.getHeight());
@@ -29,11 +29,14 @@ public class Main {
             g2d.setColor(Color.BLACK);
 
             final var originalText = "こんにちは、世界！あいうえおかきくけこさしすせそたちつてと";
-            final var text = Main.insertNewlines(originalText, 10); // 10 characters per line
+            final var text = Main.insertNewlines(originalText, 12); // 12 characters per line
             final var fm = g2d.getFontMetrics();
             final var lineHeight = fm.getHeight();
             final var x = img.getWidth() / 2;
-            var y = (img.getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+
+            // Calculate the number of lines and adjust the initial y position
+            final var numLines = text.split("\n").length;
+            var y = img.getHeight() / 2 - (numLines * lineHeight) / 2 + fm.getAscent();
 
             for (final String line : text.split("\n")) {
                 final var textWidth = fm.stringWidth(line);
